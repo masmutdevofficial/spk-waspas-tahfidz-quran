@@ -20,7 +20,7 @@
     <!-- CUSTOM CSS -->
     <!-- Custom style -->
     <link rel="stylesheet" href="<?= base_url('assets/css/styles.css') ?>">
-    <?php echo $customCss ?? '' ?>
+    <?= $this->renderSection('customCss') ?>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

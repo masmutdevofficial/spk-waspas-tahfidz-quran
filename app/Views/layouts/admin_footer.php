@@ -49,8 +49,8 @@
     <script src="<?= base_url('assets/js/adminlte.min.js') ?>"></script>
 
     <!-- CUSTOM SCRIPT -->
-    <?php echo $customJs ?? '' ?>
-    <?php echo $bodyJs ?? '' ?>
+    <?= $this->renderSection('customJs') ?>
+    <?= $this->renderSection('bodyJs') ?>
 
     <script>
         setTimeout(() => {
