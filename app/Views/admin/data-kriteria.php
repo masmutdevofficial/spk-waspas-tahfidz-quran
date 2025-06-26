@@ -29,51 +29,37 @@
             <div class="d-flex flex-row justify-content-between align-items-center">
                 <h3 class="card-title">Basic Tables</h3>
                 <div class="d-flex flex-row justify-content-center align-items-center">
-                    <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#modalTambahBasic">
+                    <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#modalTambah">
                         <i class="fa fa-plus mr-2"></i>Tambah Data
                     </button>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-print mr-2"></i>Export Data
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="export_excel.php"><i class="fa fa-file-excel mr-2 text-success"></i>Export Excel</a>
-                            <a class="dropdown-item" href="export_pdf.php"><i class="fa fa-file-pdf mr-2 text-danger"></i>Export PDF</a>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
         <div class="card-body">
+            <!-- Tabel Data -->
             <table id="basicTable" class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Nama</th>
-                        <th>Email</th>
-                        <th>HP</th>
-                        <th>Level</th>
-                        <th>Status</th>
+                        <th>Nama Kriteria</th>
+                        <th>Jenis</th>
+                        <th>Bobot</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <?php $no = 1; foreach ($kriteria as $k): ?>
                     <tr>
-                        <td>1</td>
-                        <td>nama</td>
-                        <td>email</td>
-                        <td>hp</td>
-                        <td>level</td>
-                        <td>status</td>
+                        <td><?= $no++ ?></td>
+                        <td><?= esc($k['nama_kriteria']) ?></td>
+                        <td><?= esc(ucfirst($k['jenis'])) ?></td>
+                        <td><?= esc($k['bobot']) ?></td>
                         <td>
-                            <div class="d-flex justify-content-center align-items-center gap-2">
-                                <!-- Tombol Modal -->
-                                <button class="btn btn-sm btn-warning mr-2" data-toggle="modal"
-                                    data-target="#modalEdit">
+                            <div class="d-flex justify-content-center gap-2">
+                                <button class="btn btn-sm btn-warning mr-2" data-toggle="modal" data-target="#modalEdit<?= $k['id'] ?>">
                                     <i class="fa fa-edit mr-1"></i>Edit
                                 </button>
-                                <button class="btn btn-sm btn-danger" data-toggle="modal"
-                                    data-target="#modalHapus">
+                                <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalHapus<?= $k['id'] ?>">
                                     <i class="fa fa-trash mr-1"></i>Hapus
                                 </button>
                             </div>
@@ -81,47 +67,34 @@
                     </tr>
 
                     <!-- Modal Edit -->
-                    <div class="modal fade" id="modalEdit" tabindex="-1">
+                    <div class="modal fade" id="modalEdit<?= $k['id'] ?>" tabindex="-1">
                         <div class="modal-dialog">
-                            <form action="edit-user.php" method="POST">
-                                <input type="hidden" name="id" value="">
+                            <form action="<?= base_url('kriteria/update/' . $k['id']) ?>" method="POST">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Edit User</h5>
-                                        <button type="button" class="close" data-dismiss="modal"
-                                            aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                                        <h5 class="modal-title">Edit Kriteria</h5>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="mb-3">
-                                            <label>Nama</label>
-                                            <input type="text" name="nama"
-                                                value=""
-                                                class="form-control" required>
+                                            <label>Nama Kriteria</label>
+                                            <input type="text" name="nama_kriteria" value="<?= esc($k['nama_kriteria']) ?>" class="form-control" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label>Email</label>
-                                            <input type="email" name="email"
-                                                value=""
-                                                class="form-control" required>
+                                            <label>Jenis</label>
+                                            <select name="jenis" class="form-control">
+                                                <option value="benefit" <?= $k['jenis'] == 'benefit' ? 'selected' : '' ?>>Benefit</option>
+                                                <option value="cost" <?= $k['jenis'] == 'cost' ? 'selected' : '' ?>>Cost</option>
+                                            </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label>No HP</label>
-                                            <input type="text" name="hp"
-                                                value=""
-                                                class="form-control" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label>Alamat</label>
-                                            <textarea name="alamat"
-                                                class="form-control"></textarea>
+                                            <label>Bobot</label>
+                                            <input type="number" name="bobot" value="<?= esc($k['bobot']) ?>" step="0.01" class="form-control" required>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-warning">Update</button>
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Batal</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                                     </div>
                                 </div>
                             </form>
@@ -129,35 +102,67 @@
                     </div>
 
                     <!-- Modal Hapus -->
-                    <div class="modal fade" id="modalHapus" tabindex="-1">
+                    <div class="modal fade" id="modalHapus<?= $k['id'] ?>" tabindex="-1">
                         <div class="modal-dialog">
-                            <form action="hapus-user.php" method="POST">
-                                <input type="hidden" name="id" value="">
+                            <form action="<?= base_url('kriteria/delete/' . $k['id']) ?>" method="POST">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title">Konfirmasi Hapus</h5>
-                                        <button type="button" class="close" data-dismiss="modal"
-                                            aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
-                                        Yakin ingin menghapus data user
-                                        <strong>nama</strong>?
+                                        Yakin ingin menghapus kriteria <strong><?= esc($k['nama_kriteria']) ?></strong>?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-danger">Hapus</button>
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Batal</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
+
+                    <?php endforeach ?>
                 </tbody>
             </table>
         </div>
     </div>
+
+    <!-- Modal Tambah -->
+<div class="modal fade" id="modalTambah" tabindex="-1">
+    <div class="modal-dialog">
+        <form action="<?= base_url('kriteria/tambah') ?>" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Kriteria</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Nama Kriteria</label>
+                        <input type="text" name="nama_kriteria" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Jenis</label>
+                        <select name="jenis" class="form-control">
+                            <option value="benefit" selected>Benefit</option>
+                            <option value="cost">Cost</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Bobot</label>
+                        <input type="number" name="bobot" step="0.01" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <?= $this->endSection() ?>
 
 <?= $this->section('customJs') ?>
