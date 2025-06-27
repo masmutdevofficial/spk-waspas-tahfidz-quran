@@ -19,7 +19,7 @@ Berikut adalah beberapa tampilan dari aplikasi:
 
 ### Halaman Login
 
-![Dashboard](tampilan_dashboard.png)
+![Dashboard](tampilan_login.png)
 
 ### Halaman Dashboard
 
