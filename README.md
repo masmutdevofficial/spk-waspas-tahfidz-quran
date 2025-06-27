@@ -82,4 +82,10 @@ Berikut adalah beberapa tampilan dari aplikasi:
 SPK Tahfidz Qur'an, WASPAS CodeIgniter 4, Sistem Pendukung Keputusan, Munaqashah Qur'an, Seleksi Siswa Tahfidz, CI4 SPK WASPAS, Metode WASPAS Tahfidz
 ```
 
+### 📌 Credits
+
+This project is developed and maintained by [Masmut Dev](https://masmutdev.com), a passionate developer building smart decision support systems with modern PHP frameworks.
+
+© 2025 [Masmut Dev](https://masmutdev.com) – All Rights Reserved.
+
 Lisensi: MIT
