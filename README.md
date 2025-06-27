@@ -84,7 +84,7 @@ SPK Tahfidz Qur'an, WASPAS CodeIgniter 4, Sistem Pendukung Keputusan, Munaqashah
 
 ### 📌 Credits
 
-This project is developed and maintained by [Masmut Dev](https://masmutdev.com), a passionate developer building smart decision support systems with modern PHP frameworks.
+This project is developed and maintained by [Masmut Dev](https://masmutdev.com), a Fullstack Developer with expertise in UI/UX design and DevOps engineering. Passionate about building intelligent systems, clean interfaces, and scalable infrastructures.
 
 © 2025 [Masmut Dev](https://masmutdev.com) – All Rights Reserved.
 
