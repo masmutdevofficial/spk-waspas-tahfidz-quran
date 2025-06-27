@@ -32,15 +32,6 @@
                     <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#modalTambah">
                         <i class="fa fa-plus mr-2"></i>Tambah Data
                     </button>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-print mr-2"></i>Export Data
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="export_excel.php"><i class="fa fa-file-excel mr-2 text-success"></i>Export Excel</a>
-                            <a class="dropdown-item" href="export_pdf.php"><i class="fa fa-file-pdf mr-2 text-danger"></i>Export PDF</a>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

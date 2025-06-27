@@ -3,7 +3,7 @@
         <div class="toast show text-white <?= session()->get('success') ? 'bg-success' : 'bg-danger' ?>" id="liveToast" role="alert" data-delay="3000" style="min-width: 250px;">
             <div class="toast-header <?= session()->get('success') ? 'bg-success text-white' : 'bg-danger text-white' ?>">
                 <strong class="mr-auto"><?= session()->get('success') ? 'Sukses' : 'Gagal' ?></strong>
-                <small>Barusan</small>
+                <small>Sekarang</small>
                 <button type="button" class="ml-2 mb-1 close text-white" data-dismiss="toast" aria-label="Close" onclick="document.getElementById('liveToast').remove();">
                     <span aria-hidden="true">&times;</span>
                 </button>

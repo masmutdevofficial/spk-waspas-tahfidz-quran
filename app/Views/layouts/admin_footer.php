@@ -4,7 +4,7 @@
     <footer class="main-footer">
         <strong>
             Copyright &copy; <?php echo date("Y"); ?>
-            <a href="https://adminlte.io"><?php echo $title ?? '' ?></a>.
+            <a href="http://localhost:8080/"><?php echo $title ?? 'SISTEM PENDUKUNG KEPUTUSAN BERBASIS METODE WASPAS UNTUK SELEKSI KELULUSAN MUNAQASAH DI PROGRAM TAHFIDZ QURAN SIT QURROTA AYUN ABEPURA' ?></a>.
         </strong> All rights reserved.
     </footer>
 
@@ -12,7 +12,6 @@
         <div class="modal fade" id="modalLogout" tabindex="-1" role="dialog" aria-labelledby="modalLogoutLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <form action="<?= base_url('logout') ?>" method="post">
-                <?= csrf_field() ?> <!-- untuk keamanan CSRF di CI4 -->
                 <div class="modal-content">
                     <div class="modal-header">
                     <h5 class="modal-title" id="modalLogoutLabel">Konfirmasi Logout</h5>

@@ -12,12 +12,12 @@
 <?= $this->section('content-header') ?>
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>Data Kriteria</h1>
+            <h1>Penilaian</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="<?= base_url() ?>">Home</a></li>
-                <li class="breadcrumb-item active">Data Kriteria</li>
+                <li class="breadcrumb-item active">Penilaian</li>
             </ol>
         </div>
     </div>
@@ -27,7 +27,7 @@
     <div class="card card-outline card-primary">
         <div class="card-header">
             <div class="d-flex flex-row justify-content-between align-items-center">
-                <h3 class="card-title">Basic Tables</h3>
+                <h3 class="card-title">Penilaian</h3>
                 <div class="d-flex flex-row justify-content-center align-items-center">
                     <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#modalTambah">
                         <i class="fa fa-plus mr-2"></i>Tambah Data

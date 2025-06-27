@@ -12,12 +12,12 @@
 <?= $this->section('content-header') ?>
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>Data Kriteria</h1>
+            <h1>Hasiil Penilaian</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="<?= base_url() ?>">Home</a></li>
-                <li class="breadcrumb-item active">Data Kriteria</li>
+                <li class="breadcrumb-item active">Hasil Penilaian</li>
             </ol>
         </div>
     </div>
@@ -27,9 +27,9 @@
     <div class="card card-outline card-primary">
         <div class="card-header">
             <div class="d-flex flex-row justify-content-between align-items-center">
-                <h3 class="card-title">Basic Tables</h3>
+                <h3 class="card-title">Hasil Penilaian</h3>
                 <div class="d-flex flex-row justify-content-center align-items-center">
-                    <a href="#" class="btn btn-secondary mr-2">
+                    <a href="<?= base_url('cetak-hasil-penilaian') ?>" class="btn btn-secondary mr-2">
                         <i class="fa fa-print mr-2"></i>Cetak Laporan
                     </a>
                     <button class="btn btn-primary" data-toggle="modal" data-target="#modalGrafik">
@@ -74,7 +74,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Diagram Batang: 4 Kriteria (Benefit dan Cost)</h5>
+            <h5 class="modal-title">Grafik Penilaian Waspas</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span>&times;</span>
             </button>
@@ -118,64 +118,40 @@
   </script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-        var ctx = document.getElementById('chartWaspas').getContext('2d');
+        const ctx = document.getElementById('chartWaspas').getContext('2d');
 
-        // Data siswa & nilai normalisasi tiap kriteria
-        const labels = ["Shamil", "Miftah", "Maulidya", "Indra Jaya", "Fauzan Alwan"];
-        
-        const data = {
-            labels: labels,
-            datasets: [
-                {
-                    label: 'Kelancaran Membaca (Benefit)',
-                    data: [0.8, 0.9, 0.6, 1.0, 0.7],
-                    backgroundColor: '#60a5fa'
-                },
-                {
-                    label: 'Waktu (Benefit)',
-                    data: [1.0, 0.95, 0.75, 0.85, 0.90],
-                    backgroundColor: '#34d399'
-                },
-                {
-                    label: 'Tajwid (Cost)',
-                    data: [0.6, 0.5, 0.4, 0.7, 0.8],
-                    backgroundColor: '#f97316'
-                },
-                {
-                    label: 'Makhrojul Huruf (Cost)',
-                    data: [0.7, 0.6, 0.8, 0.5, 0.6],
-                    backgroundColor: '#f43f5e'
-                }
-            ]
-        };
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: data,
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
+        fetch("<?= base_url('grafik-penilaian') ?>")
+            .then(response => response.json())
+            .then(res => {
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: res.labels,
+                        datasets: res.datasets
                     },
-                    title: {
-                        display: true,
-                        text: 'Diagram Batang: 4 Kriteria (Benefit dan Cost)'
-                    }
-                },
-                scales: {
-                    x: {
-                        min: 0,
-                        max: 1,
-                        title: {
-                            display: true,
-                            text: 'Nilai'
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        plugins: {
+                            legend: { position: 'bottom' },
+                            title: {
+                                display: true,
+                                text: 'Grafik Penilaian WSM, WPM, dan Q'
+                            }
+                        },
+                        scales: {
+                            x: {
+                                min: 0,
+                                max: 1,
+                                title: {
+                                    display: true,
+                                    text: 'Nilai'
+                                }
+                            }
                         }
                     }
-                }
-            }
-        });
+                });
+            });
     });
     </script>
 <?= $this->endSection() ?>

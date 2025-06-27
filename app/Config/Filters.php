@@ -2,6 +2,8 @@
 
 namespace Config;
 
+use App\Filters\AuthFilter;
+use App\Filters\NoAuthFilter;
 use CodeIgniter\Config\Filters as BaseFilters;
 use CodeIgniter\Filters\Cors;
 use CodeIgniter\Filters\CSRF;
@@ -34,6 +36,8 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'auth'          => AuthFilter::class,
+        'noauth'        => NoAuthFilter::class,
     ];
 
     /**
@@ -99,7 +103,7 @@ class Filters extends BaseFilters
      * before or after URI patterns.
      *
      * Example:
-     * 'isLoggedIn' => ['before' => ['account/*', 'profiles/*']]
+     * 'logged_in' => ['before' => ['account/*', 'profiles/*']]
      *
      * @var array<string, array<string, list<string>>>
      */
