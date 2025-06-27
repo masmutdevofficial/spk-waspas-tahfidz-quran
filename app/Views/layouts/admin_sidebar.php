@@ -36,7 +36,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= base_url('hasil-penilaian') ?>" class="nav-link <?= isActive('hasil-penilaian') ?>">
+                    <a href="<?= base_url('hasil-penilaian-siswa') ?>" class="nav-link <?= isActive('hasil-penilaian-siswa') ?>">
                         <i class="nav-icon fas fa-chart-line"></i>
                         <p>Hasil Penilaian</p>
                     </a>

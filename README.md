@@ -1,48 +1,85 @@
-# SPK Waspas - Sistem Penunjang Keputusan Munaqashah
+# SISTEM PENDUKUNG KEPUTUSAN METODE WASPAS
 
-## Persyaratan
+**Aplikasi Sistem Pendukung Keputusan (SPK) Berbasis Metode WASPAS untuk Seleksi Kelulusan Munaqashah**
 
-- PHP 8 ke atas (disarankan menggunakan XAMPP atau Laragon)
-- VS Code
-- Ekstensi `zip` harus aktif pada PHP
+## 📌 Deskripsi Singkat
 
-### Cara mengaktifkan ekstensi ZIP:
+Aplikasi ini membantu proses penilaian dan seleksi kelulusan siswa tahfidz menggunakan metode Weighted Aggregated Sum Product Assessment (WASPAS) dengan kriteria:
 
-**XAMPP**
+- Kelancaran Membaca
+- Waktu
+- Tajwid
+- Makhrojul Huruf
 
-1. Buka `php.ini` dari control panel XAMPP.
-2. Cari baris `;extension=zip` dan hapus titik koma (`;`) di depannya.
-3. Restart Apache.
+Dengan bobot kriteria dan perhitungan normalisasi serta hasil akhir berupa nilai WSM, WPM, dan Qi.
 
-**Laragon**
+## 🖥️ Tampilan Aplikasi
 
-1. Buka `php.ini` dari menu Laragon > PHP > php.ini.
-2. Cari baris `;extension=zip` dan hapus titik koma (`;`) di depannya.
-3. Restart Laragon.
+Berikut adalah beberapa tampilan dari aplikasi:
 
-## Langkah Instalasi
+### Halaman Login
 
-1. Buat database baru dengan nama: `db_spk_waspas` (bisa diganti sesuai kebutuhan).
-2. Jalankan perintah berikut di terminal:
+![Dashboard](tampilan_dashboard.png)
+
+### Halaman Dashboard
+
+![Dashboard](tampilan_dashboard.png)
+
+### Halaman Hasil Penilaian
+
+![Hasil Penilaian](tampilan_hasil_penilaian.png)
+
+## ⚙️ Persyaratan Sistem
+
+- PHP 8.x ke atas
+- Composer
+- MySQL
+- Ekstensi PHP Zip aktif
+
+### Cara Mengaktifkan Ekstensi ZIP:
+
+**XAMPP:**
+
+- Buka `php.ini`
+- Cari `;extension=zip` lalu hapus tanda `;` menjadi `extension=zip`
+- Restart Apache
+
+**Laragon:**
+
+- Klik kanan tray icon > PHP > php.ini
+- Lakukan hal yang sama seperti di atas
+
+## 🚀 Cara Menjalankan Proyek
+
+1. Clone repository ini
+2. Buat database dengan nama `db_spk_waspas` (bisa diganti di `.env`)
+3. Jalankan migrasi:
    ```bash
    php spark migrate
+   ```
+4. Jalankan seeder untuk data awal:
+   ```bash
    php spark db:seed DefaultSeeder
    ```
-3. Jalankan server:
+5. Jalankan server lokal:
    ```bash
    php spark serve
    ```
-4. Buka browser dan akses: `http://localhost:8080`
-5. Selesai 🎉
+6. Buka browser dan akses: `http://localhost:8080`
 
-## Akun Default
+## 👥 Akun Login Default
 
-### Admin
+| Role         | Email                 | Password    |
+| ------------ | --------------------- | ----------- |
+| Admin        | admin@gmail.com       | admin       |
+| Guru Penguji | gurupenguji@gmail.com | gurupenguji |
 
-- Email: admin@gmail.com
-- Password: admin
+---
 
-### Guru Penguji
+## 🔍 Keywords SEO
 
-- Email: gurupenguji@gmail.com
-- Password: gurupenguji
+```
+SPK Tahfidz Qur'an, WASPAS CodeIgniter 4, Sistem Pendukung Keputusan, Munaqashah Qur'an, Seleksi Siswa Tahfidz, CI4 SPK WASPAS, Metode WASPAS Tahfidz
+```
+
+Lisensi: MIT

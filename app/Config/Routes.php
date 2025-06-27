@@ -36,7 +36,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->post('penilaian/delete/(:num)', 'Penilaian::delete/$1');
     $routes->get('mulai-algoritma', 'Penilaian::algoritmaWaspas');
 
-    $routes->get('hasil-penilaian', 'Hasil::index');
+    $routes->get('hasil-penilaian-siswa', 'Hasil::index');
     $routes->post('hasil-penilaian/tambah', 'Hasil::tambah');
     $routes->post('hasil-penilaian/update/(:num)', 'Hasil::update/$1');
     $routes->post('hasil-penilaian/delete/(:num)', 'Hasil::delete/$1');
