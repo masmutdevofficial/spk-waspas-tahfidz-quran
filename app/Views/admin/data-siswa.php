@@ -67,7 +67,6 @@
                     <td><?= date('d/m/Y', strtotime($s['tgl_lahir'])) ?></td>
                     <td><?= esc($s['kelas']) ?></td>
                     <td><?= esc($s['juz']) ?></td>
-                    <?php if (session()->get('role') == 1): ?>
                     <td>
                         <div class="d-flex justify-content-center gap-2">
                             <!-- Tombol Modal Edit -->
@@ -83,10 +82,8 @@
                             </button>
                         </div>
                     </td>
-                    <?php endif; ?>
                 </tr>
 
-                <?php if (session()->get('role') == 1): ?>
                 <!-- Modal Edit -->
                 <div class="modal fade" id="modalEdit<?= $s['id'] ?>" tabindex="-1">
                     <div class="modal-dialog">
@@ -171,7 +168,6 @@
                         </form>
                     </div>
                 </div>
-                <?php endif; ?>
                 <?php endforeach ?>
             </tbody>
         </table>
