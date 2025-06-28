@@ -6,6 +6,7 @@ use App\Models\NilaiSiswaModel;
 use App\Models\SiswaModel;
 use App\Models\KriteriaModel;
 use App\Models\HasilPenilaianModel;
+use App\Models\PeriodeModel;
 
 class Penilaian extends BaseController
 {
@@ -14,37 +15,42 @@ class Penilaian extends BaseController
         $nilaiSiswa = new NilaiSiswaModel();
         $siswa      = new SiswaModel();
         $kriteria   = new KriteriaModel();
-    
-        // Ambil semua id siswa yang sudah punya nilai
+        $periode    = new PeriodeModel();
+
+        $filterPeriode = $this->request->getGet('periode');
+
+        $data['periode'] = $periode->findAll();
+        $data['filter_id'] = $filterPeriode;
+
+        // Ambil siswa yang belum punya nilai
         $siswaNilai = $nilaiSiswa
             ->distinct()
             ->select('id_siswa')
             ->findColumn('id_siswa');
-    
-        // Tampilkan hanya siswa yang belum ada di nilai_siswa
+
+        $querySiswa = $siswa;
+        if (!empty($filterPeriode)) {
+            $querySiswa = $querySiswa->where('id_periode', $filterPeriode);
+        }
+
         $data['siswa'] = $siswaNilai
-            ? $siswa->whereNotIn('id', $siswaNilai)->findAll()
-            : $siswa->findAll();
-    
-        $data['kriteria'] = $kriteria->findAll();
-    
-        // Tampilkan semua nilai jika diperlukan
-        $data['nilai'] = $nilaiSiswa
-            ->select('nilai_siswa.*, siswa.nama_siswa, kriteria.nama_kriteria')
-            ->join('siswa', 'siswa.id = nilai_siswa.id_siswa')
-            ->join('kriteria', 'kriteria.id = nilai_siswa.id_kriteria')
-            ->orderBy('id_siswa')
-            ->findAll();
-
-        // Ambil data nilai siswa yang dikelompokkan per siswa
-        $nilaiData = $nilaiSiswa
-            ->select('nilai_siswa.*, siswa.nama_siswa, kriteria.nama_kriteria')
-            ->join('siswa', 'siswa.id = nilai_siswa.id_siswa')
-            ->join('kriteria', 'kriteria.id = nilai_siswa.id_kriteria')
-            ->orderBy('id_siswa')
-            ->findAll();
+            ? $querySiswa->whereNotIn('id', $siswaNilai)->findAll()
+            : $querySiswa->findAll();
 
         $data['kriteria'] = $kriteria->findAll();
+
+        // Ambil semua nilai siswa dengan join
+        $queryNilai = $nilaiSiswa
+            ->select('nilai_siswa.*, siswa.nama_siswa, siswa.id_periode, kriteria.nama_kriteria')
+            ->join('siswa', 'siswa.id = nilai_siswa.id_siswa')
+            ->join('kriteria', 'kriteria.id = nilai_siswa.id_kriteria')
+            ->orderBy('id_siswa');
+
+        if (!empty($filterPeriode)) {
+            $queryNilai = $queryNilai->where('siswa.id_periode', $filterPeriode);
+        }
+
+        $nilaiData = $queryNilai->findAll();
 
         // Kelompokkan nilai per siswa
         $grouped = [];
@@ -54,9 +60,10 @@ class Penilaian extends BaseController
         }
 
         $data['nilai_siswa'] = $grouped;
-    
+
         return view('admin/penilaian', $data);
     }
+
 
     public function tambah()
     {

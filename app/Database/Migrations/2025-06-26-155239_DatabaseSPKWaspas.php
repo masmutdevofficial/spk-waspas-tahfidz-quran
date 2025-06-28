@@ -49,6 +49,7 @@ class DatabaseSPKWaspas extends Migration
         $this->forge->addField([
             'id'            => ['type' => 'INT', 'unsigned' => true, 'auto_increment' => true],
             'id_periode'    => ['type' => 'INT', 'unsigned' => true],
+            'id_user'       => ['type' => 'INT', 'unsigned' => true],
             'nama_siswa'    => ['type' => 'VARCHAR', 'constraint' => 100],
             'jenis_kelamin' => ['type' => 'ENUM', 'constraint' => ['L', 'P'], 'default' => 'L'],
             'tgl_lahir'     => ['type' => 'DATE'],
@@ -57,8 +58,10 @@ class DatabaseSPKWaspas extends Migration
             'created_at'    => ['type' => 'DATETIME', 'null' => true],
             'updated_at'    => ['type' => 'DATETIME', 'null' => true],
         ]);
+
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('id_periode', 'periode', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_user', 'users', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('siswa');
 
         // TABEL NILAI_SISWA

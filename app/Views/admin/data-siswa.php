@@ -38,12 +38,15 @@
             </div>
         </div>
         <div class="card-body">
+        <?= $this->include('layouts/periode') ?>
+
         <table id="basicTable" class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>No</th>
                     <th>Nama Siswa</th>
                     <th>Periode</th>
+                    <th>Guru Penguji</th> <!-- baru -->
                     <th>Jenis Kelamin</th>
                     <th>Tanggal Lahir</th>
                     <th>Kelas</th>
@@ -59,6 +62,7 @@
                     <td><?= $no++ ?></td>
                     <td><?= esc($s['nama_siswa']) ?></td>
                     <td><?= esc($s['tahun'] . ' - ' . $s['semester']) ?></td>
+                    <td><?= esc($s['nama_guru'] ?? '-') ?></td>
                     <td><?= $s['jenis_kelamin'] == 'L' ? 'Laki-laki' : 'Perempuan' ?></td>
                     <td><?= date('d/m/Y', strtotime($s['tgl_lahir'])) ?></td>
                     <td><?= esc($s['kelas']) ?></td>
@@ -126,6 +130,17 @@
                                         <label>Juz</label>
                                         <input type="text" name="juz" class="form-control" value="<?= esc($s['juz']) ?>" required>
                                     </div>
+                                    <div class="form-group">
+                                        <label>Guru Penguji</label>
+                                        <select name="id_user" class="form-control" required>
+                                            <option value="">-- Pilih Guru --</option>
+                                            <?php foreach ($guru as $g): ?>
+                                                <option value="<?= $g['id'] ?>" <?= $g['id'] == $s['id_user'] ? 'selected' : '' ?>>
+                                                    <?= esc($g['nama']) ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-warning">Update</button>
@@ -183,6 +198,17 @@
                                     <?= $p['tahun'] . ' - ' . $p['semester'] ?>
                                 </option>
                                 <?php endforeach ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Guru Penguji</label>
+                            <select name="id_user" class="form-control" required>
+                                <option value="">-- Pilih Guru Penguji --</option>
+                                <?php foreach ($guru as $g): ?>
+                                <option value="<?= $g['id'] ?>">
+                                    <?= esc($g['nama']) ?>
+                                </option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="form-group">

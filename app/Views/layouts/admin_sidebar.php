@@ -42,6 +42,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="<?= base_url('data-periode') ?>" class="nav-link <?= isActive('data-periode') ?>">
+                        <i class="nav-icon fas fa-calendar"></i>
+                        <p>Data Periode</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="<?= base_url('grafik-kriteria') ?>" class="nav-link <?= isActive('grafik-kriteria') ?>">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>Grafik Kriteria</p>

@@ -25,6 +25,11 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->post('siswa/update/(:num)', 'Siswa::update/$1');
     $routes->post('siswa/delete/(:num)', 'Siswa::delete/$1');
 
+    $routes->get('data-periode', 'Periode::index');
+    $routes->post('periode/tambah', 'Periode::tambah');
+    $routes->post('periode/update/(:num)', 'Periode::update/$1');
+    $routes->post('periode/delete/(:num)', 'Periode::delete/$1');
+
     $routes->get('data-user', 'User::index');
     $routes->post('user/tambah', 'User::tambah');
     $routes->post('user/update/(:num)', 'User::update/$1');

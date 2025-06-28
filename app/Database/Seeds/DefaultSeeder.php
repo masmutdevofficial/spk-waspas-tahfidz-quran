@@ -14,21 +14,29 @@ class DefaultSeeder extends Seeder
                 'nama'       => 'Admin',
                 'email'      => 'admin@gmail.com',
                 'password'   => password_hash('admin', PASSWORD_DEFAULT),
-                'role'       => 1, // Admin
+                'role'       => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'nama'       => 'Guru Penguji',
-                'email'      => 'gurupenguji@gmail.com',
-                'password'   => password_hash('gurupenguji', PASSWORD_DEFAULT),
-                'role'       => 2, // Guru Penguji
+                'nama'       => 'Guru Penguji 1',
+                'email'      => 'gurupenguji1@gmail.com',
+                'password'   => password_hash('gurupenguji1', PASSWORD_DEFAULT),
+                'role'       => 2,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'nama'       => 'Guru Penguji 2',
+                'email'      => 'gurupenguji2@gmail.com',
+                'password'   => password_hash('gurupenguji2', PASSWORD_DEFAULT),
+                'role'       => 2,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
         ];
-
         $this->db->table('users')->insertBatch($users);
+
 
         // 2. Seeder Periode
         $periodeData = [
@@ -86,9 +94,9 @@ class DefaultSeeder extends Seeder
         ];
 
         $nilaiPerKriteria = [
-            1 => [15, 5, 10, 10, 9], // Kelancaran Membaca
-            2 => [38, 21, 54, 40, 2], // Waktu
-            3 => [6, 5, 7, 5, 2], // Tajwid
+            1 => [15, 5, 10, 10, 4], // Kelancaran Membaca
+            2 => [38, 21, 54, 40, 42], // Waktu
+            3 => [6, 5, 7, 5, 3], // Tajwid
             4 => [9, 2, 2, 5, 5], // Makhrojul Huruf
         ];
 
@@ -100,6 +108,7 @@ class DefaultSeeder extends Seeder
             // Insert siswa
             $this->db->table('siswa')->insert([
                 'id_periode'    => $faker->randomElement($periodeIDs),
+                'id_user'       => $faker->randomElement([2, 3]),
                 'nama_siswa'    => $siswa['nama_siswa'],
                 'jenis_kelamin' => $siswa['jenis_kelamin'],
                 'tgl_lahir'     => $faker->dateTimeBetween('2008-01-01', '2015-12-31')->format('Y-m-d'),

@@ -39,6 +39,7 @@
             </div>
         </div>
         <div class="card-body">
+          <?= $this->include('layouts/periode') ?>
           <table id="basicTable" class="table table-bordered table-striped">
               <thead>
                   <tr>

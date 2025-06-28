@@ -76,9 +76,13 @@
             Email: <code>admin@gmail.com</code><br>
             Password: <code>admin</code>
         </li>
-        <li class="mt-2"><strong>Guru Penguji</strong><br>
-            Email: <code>gurupenguji@gmail.com</code><br>
-            Password: <code>gurupenguji</code>
+        <li class="mt-2"><strong>Guru Penguji 1</strong><br>
+            Email: <code>gurupenguji1@gmail.com</code><br>
+            Password: <code>gurupenguji1</code>
+        </li>
+        <li class="mt-2"><strong>Guru Penguji 2</strong><br>
+            Email: <code>gurupenguji2@gmail.com</code><br>
+            Password: <code>gurupenguji2</code>
         </li>
         </ul>
     </div>

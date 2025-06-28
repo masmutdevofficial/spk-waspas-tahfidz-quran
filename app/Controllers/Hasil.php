@@ -6,6 +6,7 @@ use App\Models\HasilPenilaianModel;
 use App\Models\SiswaModel;
 use App\Models\NilaiSiswaModel;
 use App\Models\KriteriaModel;
+use App\Models\PeriodeModel;
 
 class Hasil extends BaseController
 {
@@ -13,12 +14,22 @@ class Hasil extends BaseController
     {
         $modelWaspas = new HasilPenilaianModel();
         $modelSiswa  = new SiswaModel();
+        $modelPeriode = new PeriodeModel();
 
-        $data['waspas'] = $modelWaspas
-            ->select('nilai_waspas.*, siswa.nama_siswa')
-            ->join('siswa', 'siswa.id = nilai_waspas.id_siswa')
-            ->findAll();
+        $filterPeriode = $this->request->getGet('periode');
 
+        $data['periode'] = $modelPeriode->findAll();
+        $data['filter_id'] = $filterPeriode;
+
+        $query = $modelWaspas
+            ->select('nilai_waspas.*, siswa.nama_siswa, siswa.id_periode')
+            ->join('siswa', 'siswa.id = nilai_waspas.id_siswa');
+
+        if (!empty($filterPeriode)) {
+            $query = $query->where('siswa.id_periode', $filterPeriode);
+        }
+
+        $data['waspas'] = $query->findAll();
         $data['siswa'] = $modelSiswa->findAll();
 
         return view('admin/hasil-penilaian', $data);
