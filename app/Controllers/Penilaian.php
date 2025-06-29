@@ -6,6 +6,7 @@ use App\Models\NilaiSiswaModel;
 use App\Models\SiswaModel;
 use App\Models\KriteriaModel;
 use App\Models\HasilPenilaianModel;
+use App\Models\NilaiKonversiModel;
 use App\Models\PeriodeModel;
 
 class Penilaian extends BaseController
@@ -64,7 +65,6 @@ class Penilaian extends BaseController
         return view('admin/penilaian', $data);
     }
 
-
     public function tambah()
     {
         $model = new NilaiSiswaModel();
@@ -109,7 +109,9 @@ class Penilaian extends BaseController
     public function algoritmaWaspas()
     {
         $model = new NilaiSiswaModel();
-    
+        $konversiModel  = new NilaiKonversiModel();
+        $hasilModel = new HasilPenilaianModel();
+
         // Ambil data lengkap dari nilai_siswa
         $data = $model
             ->select('nilai_siswa.*, siswa.nama_siswa, kriteria.id as id_kriteria, kriteria.nama_kriteria')
@@ -198,6 +200,28 @@ class Penilaian extends BaseController
     
         echo "</tbody></table>";
 
+        foreach ($siswaData as $idSiswa => $siswa) {
+            foreach ($siswa['nilai'] as $idKriteria => $n) {
+                $dataSave = [
+                    'id_siswa'    => $idSiswa,
+                    'id_kriteria' => $idKriteria,
+                    'nilai'       => $n['konversi'],
+                ];
+
+                // sudah ada? → update, kalau belum → insert
+                $existing = $konversiModel
+                    ->where('id_siswa', $idSiswa)
+                    ->where('id_kriteria', $idKriteria)
+                    ->first();
+
+                if ($existing) {
+                    $konversiModel->update($existing['id'], $dataSave);
+                } else {
+                    $konversiModel->insert($dataSave);
+                }
+            }
+        }
+        
         // 1. Ambil semua nilai konversi per kriteria
         $nilaiPerKriteria = [];
 
@@ -319,9 +343,6 @@ class Penilaian extends BaseController
         }
         
         echo "</tbody></table>";
-
-        // Inisialisasi model
-        $hasilModel = new HasilPenilaianModel();
 
         foreach ($siswaData as $idSiswa => $siswa) {
             $dataToSave = [

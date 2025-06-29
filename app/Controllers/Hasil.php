@@ -6,19 +6,20 @@ use App\Models\HasilPenilaianModel;
 use App\Models\SiswaModel;
 use App\Models\NilaiSiswaModel;
 use App\Models\KriteriaModel;
+use App\Models\NilaiKonversiModel;
 use App\Models\PeriodeModel;
 
 class Hasil extends BaseController
 {
     public function index()
     {
-        $modelWaspas = new HasilPenilaianModel();
-        $modelSiswa  = new SiswaModel();
-        $modelPeriode = new PeriodeModel();
+        $modelWaspas   = new HasilPenilaianModel();
+        $modelSiswa    = new SiswaModel();
+        $modelPeriode  = new PeriodeModel();
 
         $filterPeriode = $this->request->getGet('periode');
 
-        $data['periode'] = $modelPeriode->findAll();
+        $data['periode']   = $modelPeriode->findAll();
         $data['filter_id'] = $filterPeriode;
 
         $query = $modelWaspas
@@ -26,11 +27,14 @@ class Hasil extends BaseController
             ->join('siswa', 'siswa.id = nilai_waspas.id_siswa');
 
         if (!empty($filterPeriode)) {
-            $query = $query->where('siswa.id_periode', $filterPeriode);
+            $query->where('siswa.id_periode', $filterPeriode);
         }
 
+        // 🔽 Urutkan berdasarkan Qi tertinggi ke terendah
+        $query->orderBy('nilai_qi', 'DESC');
+
         $data['waspas'] = $query->findAll();
-        $data['siswa'] = $modelSiswa->findAll();
+        $data['siswa']  = $modelSiswa->findAll();
 
         return view('admin/hasil-penilaian', $data);
     }
@@ -121,45 +125,58 @@ class Hasil extends BaseController
 
     public function grafik()
     {
-        $model = new HasilPenilaianModel();
-        $siswaModel = new SiswaModel();
+        $model = new NilaiKonversiModel();
 
-        $data = $model
-            ->select('nilai_waspas.*, siswa.nama_siswa')
-            ->join('siswa', 'siswa.id = nilai_waspas.id_siswa')
-            ->findAll();
+        $periodeId = $this->request->getGet('periode');
 
+        $query = $model->select('siswa.nama_siswa, kriteria.nama_kriteria, nilai_konversi.nilai')
+            ->join('siswa', 'siswa.id = nilai_konversi.id_siswa')
+            ->join('kriteria', 'kriteria.id = nilai_konversi.id_kriteria');
+
+        if (!empty($periodeId)) {
+            $query->where('siswa.id_periode', $periodeId);
+        }
+
+        $results = $query->orderBy('siswa.id')->orderBy('kriteria.id')->findAll();
+
+        // Struktur data grafik
         $labels = [];
-        $wsm = [];
-        $wpm = [];
-        $qi = [];
+        $datasets = [];
 
-        foreach ($data as $item) {
-            $labels[] = $item['nama_siswa'];
-            $wsm[]    = (float) $item['nilai_wsm'];
-            $wpm[]    = (float) $item['nilai_wpm'];
-            $qi[]     = (float) $item['nilai_qi'];
+        foreach ($results as $row) {
+            $namaSiswa     = $row['nama_siswa'];
+            $namaKriteria  = $row['nama_kriteria'];
+            $nilai         = floatval($row['nilai']);
+
+            if (!in_array($namaSiswa, $labels)) {
+                $labels[] = $namaSiswa;
+            }
+
+            if (!isset($datasets[$namaKriteria])) {
+                $datasets[$namaKriteria] = [];
+            }
+
+            $datasets[$namaKriteria][] = $nilai;
+        }
+
+        // Format Chart.js datasets
+        $colors = ['#60a5fa', '#34d399', '#fbbf24', '#f87171', '#a78bfa'];
+        $datasetsFormatted = [];
+        $i = 0;
+
+        foreach ($datasets as $kriteria => $nilaiList) {
+            $datasetsFormatted[] = [
+                'label' => $kriteria,
+                'data' => $nilaiList,
+                'backgroundColor' => $colors[$i % count($colors)],
+            ];
+            $i++;
         }
 
         return $this->response->setJSON([
-            'labels' => $labels,
-            'datasets' => [
-                [
-                    'label' => 'WSM',
-                    'data' => $wsm,
-                    'backgroundColor' => '#60a5fa',
-                ],
-                [
-                    'label' => 'WPM',
-                    'data' => $wpm,
-                    'backgroundColor' => '#34d399',
-                ],
-                [
-                    'label' => 'Nilai Q',
-                    'data' => $qi,
-                    'backgroundColor' => '#f97316',
-                ],
-            ]
+            'labels'   => $labels,
+            'datasets' => $datasetsFormatted,
         ]);
     }
+
 }

@@ -81,6 +81,7 @@
             </button>
         </div>
         <div class="modal-body">
+            <?= $this->include('layouts/periode') ?>
             <canvas id="chartWaspas" width="100%" height="50"></canvas>
         </div>
         </div>
@@ -120,39 +121,54 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
         const ctx = document.getElementById('chartWaspas').getContext('2d');
+        let chartInstance;
 
-        fetch("<?= base_url('grafik-penilaian') ?>")
-            .then(response => response.json())
-            .then(res => {
-                const chart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: res.labels,
-                        datasets: res.datasets
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        plugins: {
-                            legend: { position: 'bottom' },
-                            title: {
-                                display: true,
-                                text: 'Grafik Penilaian WSM, WPM, dan Q'
-                            }
+        function loadChart(periodeId = '') {
+            const url = `<?= base_url('grafik-penilaian') ?>${periodeId ? '?periode=' + periodeId : ''}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(res => {
+                    if (chartInstance) chartInstance.destroy();
+
+                    chartInstance = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: res.labels,
+                            datasets: res.datasets
                         },
-                        scales: {
-                            x: {
-                                min: 0,
-                                max: 1,
+                        options: {
+                            indexAxis: 'y',
+                            responsive: true,
+                            plugins: {
+                                legend: { position: 'bottom' },
                                 title: {
                                     display: true,
-                                    text: 'Nilai'
+                                    text: 'Grafik Penilaian Nilai Konversi'
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    min: 0,
+                                    max: 1,
+                                    title: {
+                                        display: true,
+                                        text: 'Nilai'
+                                    }
                                 }
                             }
                         }
-                    }
+                    });
                 });
-            });
+        }
+
+        const initialPeriode = document.getElementById('periode').value;
+        loadChart(initialPeriode);
+
+        document.getElementById('periode').addEventListener('change', function () {
+            const selectedPeriode = this.value;
+            loadChart(selectedPeriode);
+        });
     });
     </script>
 <?= $this->endSection() ?>

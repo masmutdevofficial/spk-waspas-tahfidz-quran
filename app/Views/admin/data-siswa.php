@@ -46,7 +46,7 @@
                     <th>No</th>
                     <th>Nama Siswa</th>
                     <th>Periode</th>
-                    <th>Guru Penguji</th> <!-- baru -->
+                    <th>Guru Penguji</th>
                     <th>Jenis Kelamin</th>
                     <th>Tanggal Lahir</th>
                     <th>Kelas</th>

@@ -78,6 +78,20 @@ class DatabaseSPKWaspas extends Migration
         $this->forge->addForeignKey('id_kriteria', 'kriteria', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('nilai_siswa');
 
+        $this->forge->addField([
+            'id'          => ['type' => 'INT', 'unsigned' => true, 'auto_increment' => true],
+            'id_siswa'    => ['type' => 'INT', 'unsigned' => true],
+            'id_kriteria' => ['type' => 'INT', 'unsigned' => true],
+            'nilai'       => ['type' => 'DECIMAL', 'constraint' => '10,4'],
+            'created_at'  => ['type' => 'DATETIME', 'null' => true],
+            'updated_at'  => ['type' => 'DATETIME', 'null' => true],
+        ]);
+
+        $this->forge->addKey('id', true);
+        $this->forge->addForeignKey('id_siswa', 'siswa', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_kriteria', 'kriteria', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('nilai_konversi');
+
         // TABEL NILAI_WASPAS
         $this->forge->addField([
             'id'                 => ['type' => 'INT', 'unsigned' => true, 'auto_increment' => true],
