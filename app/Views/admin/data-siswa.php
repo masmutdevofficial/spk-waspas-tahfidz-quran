@@ -44,6 +44,7 @@
             <thead>
                 <tr>
                     <th>No</th>
+                    <th>NIS</th>
                     <th>Nama Siswa</th>
                     <th>Periode</th>
                     <th>Guru Penguji</th>
@@ -60,6 +61,7 @@
                 <?php $no = 1; foreach ($siswa as $s): ?>
                 <tr>
                     <td><?= $no++ ?></td>
+                    <td><?= esc($s['nis']) ?></td>
                     <td><?= esc($s['nama_siswa']) ?></td>
                     <td><?= esc($s['tahun'] . ' - ' . $s['semester']) ?></td>
                     <td><?= esc($s['nama_guru'] ?? '-') ?></td>
@@ -103,6 +105,10 @@
                                             </option>
                                             <?php endforeach ?>
                                         </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>NIS</label>
+                                        <input type="text" name="nis" class="form-control" value="<?= esc($s['nis']) ?>" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Nama Siswa</label>
@@ -206,6 +212,10 @@
                                 </option>
                                 <?php endforeach; ?>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label>NIS</label>
+                            <input type="text" name="nis" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label>Nama Siswa</label>

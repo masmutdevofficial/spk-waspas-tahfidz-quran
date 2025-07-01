@@ -50,6 +50,7 @@ class DatabaseSPKWaspas extends Migration
             'id'            => ['type' => 'INT', 'unsigned' => true, 'auto_increment' => true],
             'id_periode'    => ['type' => 'INT', 'unsigned' => true],
             'id_user'       => ['type' => 'INT', 'unsigned' => true],
+            'nis'    => ['type' => 'VARCHAR', 'constraint' => 100],
             'nama_siswa'    => ['type' => 'VARCHAR', 'constraint' => 100],
             'jenis_kelamin' => ['type' => 'ENUM', 'constraint' => ['L', 'P'], 'default' => 'L'],
             'tgl_lahir'     => ['type' => 'DATE'],

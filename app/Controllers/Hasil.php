@@ -91,9 +91,11 @@ class Hasil extends BaseController
         $kriteriaModel = new KriteriaModel();
 
         $kriteriaList = $kriteriaModel->findAll();
-
         $siswaList = $siswaModel->findAll();
-        $siswaData = [];
+
+        $dataSemua = [];
+        $dataLulus = [];
+        $dataTidakLulus = [];
 
         foreach ($siswaList as $s) {
             $nilai = $nilaiModel
@@ -105,9 +107,12 @@ class Hasil extends BaseController
                 ->first();
 
             $temp = [
-                'nama' => $s['nama_siswa'],
-                'nilai' => [],
-                'qi' => $waspas['nilai_qi'] ?? 0,
+                'nama'   => $s['nama_siswa'],
+                'nis'    => $s['nis'],
+                'kelas'  => $s['kelas'],
+                'juz'    => $s['juz'],
+                'nilai'  => [],
+                'qi'     => $waspas['nilai_qi'] ?? 0,
                 'status' => $waspas['status_kelulusan'] ?? 'Tidak Lulus',
             ];
 
@@ -117,11 +122,25 @@ class Hasil extends BaseController
                 ];
             }
 
-            $siswaData[] = $temp;
+            $dataSemua[] = $temp;
+
+            if ($temp['status'] === 'Lulus') {
+                $dataLulus[] = $temp;
+            } else {
+                $dataTidakLulus[] = $temp;
+            }
         }
 
-        return view('admin/cetak-hasil-penilaian', compact('siswaData'));
+        // Urutkan halaman pertama berdasarkan nilai akhir (qi) tertinggi
+        usort($dataSemua, fn($a, $b) => $b['qi'] <=> $a['qi']);
+
+        return view('admin/cetak-hasil-penilaian', [
+            'dataSemua' => $dataSemua,
+            'dataLulus' => $dataLulus,
+            'dataTidakLulus' => $dataTidakLulus,
+        ]);
     }
+
 
     public function grafik()
     {

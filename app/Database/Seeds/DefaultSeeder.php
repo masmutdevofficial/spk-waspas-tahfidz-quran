@@ -86,11 +86,11 @@ class DefaultSeeder extends Seeder
 
         // 4. Seeder Siswa dan Seeder Nilai Siswa
         $siswaList = [
-            ['nama_siswa' => 'Fauzan Alwan', 'jenis_kelamin' => 'L'],
-            ['nama_siswa' => 'Indra Jaya',   'jenis_kelamin' => 'L'],
-            ['nama_siswa' => 'Maulidya',     'jenis_kelamin' => 'P'],
-            ['nama_siswa' => 'Miftah',       'jenis_kelamin' => 'P'],
-            ['nama_siswa' => 'Shamil',       'jenis_kelamin' => 'P'],
+            ['nis' => '230101', 'nama_siswa' => 'Fauzan Alwan', 'jenis_kelamin' => 'L'],
+            ['nis' => '230102', 'nama_siswa' => 'Indra Jaya',   'jenis_kelamin' => 'L'],
+            ['nis' => '230103', 'nama_siswa' => 'Maulidya',     'jenis_kelamin' => 'P'],
+            ['nis' => '230104', 'nama_siswa' => 'Miftah',       'jenis_kelamin' => 'P'],
+            ['nis' => '230105', 'nama_siswa' => 'Shamil',       'jenis_kelamin' => 'P'],
         ];
 
         $nilaiPerKriteria = [
@@ -109,6 +109,7 @@ class DefaultSeeder extends Seeder
             $this->db->table('siswa')->insert([
                 'id_periode'    => $faker->randomElement($periodeIDs),
                 'id_user'       => $faker->randomElement([2, 3]),
+                'nis'           => $siswa['nis'],
                 'nama_siswa'    => $siswa['nama_siswa'],
                 'jenis_kelamin' => $siswa['jenis_kelamin'],
                 'tgl_lahir'     => $faker->dateTimeBetween('2008-01-01', '2015-12-31')->format('Y-m-d'),
