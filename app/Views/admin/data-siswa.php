@@ -133,17 +133,19 @@
                                         <label>Juz</label>
                                         <input type="text" name="juz" class="form-control" value="<?= esc($s['juz']) ?>" required>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Guru Penguji</label>
-                                        <select name="id_user" class="form-control" required>
-                                            <option value="">-- Pilih Guru --</option>
-                                            <?php foreach ($guru as $g): ?>
-                                                <option value="<?= $g['id'] ?>" <?= $g['id'] == $s['id_user'] ? 'selected' : '' ?>>
-                                                    <?= esc($g['nama']) ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
+                                    <?php if (session()->get('role') == 1): ?>
+                                        <div class="form-group">
+                                            <label>Guru Penguji</label>
+                                            <select name="id_user" class="form-control" required>
+                                                <option value="">-- Pilih Guru --</option>
+                                                <?php foreach ($guru as $g): ?>
+                                                    <option value="<?= $g['id'] ?>" <?= isset($s) && $g['id'] == $s['id_user'] ? 'selected' : '' ?>>
+                                                        <?= esc($g['nama']) ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-warning">Update</button>
@@ -191,6 +193,7 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
+                        <?php if (session()->get('role') == 1): ?>
                         <div class="form-group">
                             <label>Periode</label>
                             <select name="id_periode" class="form-control" required>
@@ -202,6 +205,7 @@
                                 <?php endforeach ?>
                             </select>
                         </div>
+                        <?php endif; ?>
                         <div class="form-group">
                             <label>Guru Penguji</label>
                             <select name="id_user" class="form-control" required>

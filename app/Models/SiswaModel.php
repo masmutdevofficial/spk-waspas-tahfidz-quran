@@ -10,7 +10,7 @@ class SiswaModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
-        'id_periode', 'id_user', 'nama_siswa', 'jenis_kelamin', 'tgl_lahir',
+        'id_periode', 'id_user', 'nis', 'nama_siswa', 'jenis_kelamin', 'tgl_lahir',
         'kelas', 'juz'
     ];
     protected $useTimestamps = true;

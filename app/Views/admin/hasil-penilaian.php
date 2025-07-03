@@ -32,9 +32,11 @@
                     <a href="<?= base_url('cetak-hasil-penilaian') ?>" class="btn btn-secondary mr-2">
                         <i class="fa fa-print mr-2"></i>Cetak Laporan
                     </a>
+                    <?php if (session()->get('role') == 1): ?>
                     <button class="btn btn-primary" data-toggle="modal" data-target="#modalGrafik">
                         <i class="fa fa-chart-line mr-2"></i>Grafik Hasil
                     </button>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

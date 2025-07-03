@@ -47,12 +47,6 @@
                         <p>Data Periode</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="<?= base_url('grafik-kriteria') ?>" class="nav-link <?= isActive('grafik-kriteria') ?>">
-                        <i class="nav-icon fas fa-chart-pie"></i>
-                        <p>Grafik Kriteria</p>
-                    </a>
-                </li>
 
                 <!-- Hanya untuk Admin -->
                 <?php if (session()->get('role') == 1): ?>
@@ -68,6 +62,12 @@
                             <p>Penilaian</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                    <a href="<?= base_url('grafik-kriteria') ?>" class="nav-link <?= isActive('grafik-kriteria') ?>">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>Grafik Kriteria</p>
+                    </a>
+                </li>
                 <?php endif; ?>
 
             </ul>

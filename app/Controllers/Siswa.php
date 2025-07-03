@@ -56,14 +56,19 @@ class Siswa extends BaseController
     public function tambah()
     {
         $siswaModel = new SiswaModel();
+        $session = session();
         $data = $this->request->getPost();
+
+        // Jika Guru Penguji, pakai ID dari session
+        if ($session->get('role') == 2) {
+            $data['id_user'] = $session->get('id');
+        }
 
         $siswaModel->save([
             'id_periode'    => $data['id_periode'],
             'id_user'       => $data['id_user'],
             'nama_siswa'    => $data['nama_siswa'],
             'nis'           => $data['nis'],
-            'nama_siswa'    => $data['nama_siswa'],
             'jenis_kelamin' => $data['jenis_kelamin'],
             'tgl_lahir'     => $data['tgl_lahir'],
             'kelas'         => $data['kelas'],
@@ -76,7 +81,12 @@ class Siswa extends BaseController
     public function update($id)
     {
         $siswaModel = new SiswaModel();
+        $session = session();
         $data = $this->request->getPost();
+
+        if ($session->get('role') == 2) {
+            $data['id_user'] = $session->get('id');
+        }
 
         $siswaModel->update($id, [
             'id_periode'    => $data['id_periode'],
