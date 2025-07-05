@@ -36,6 +36,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                        <a href="<?= base_url('penilaian') ?>" class="nav-link <?= isActive('penilaian') ?>">
+                            <i class="nav-icon fas fa-clipboard-check"></i>
+                            <p>Penilaian</p>
+                        </a>
+                    </li>
+                <li class="nav-item">
                     <a href="<?= base_url('hasil-penilaian-siswa') ?>" class="nav-link <?= isActive('hasil-penilaian-siswa') ?>">
                         <i class="nav-icon fas fa-chart-line"></i>
                         <p>Hasil Penilaian</p>
@@ -54,12 +60,6 @@
                         <a href="<?= base_url('data-user') ?>" class="nav-link <?= isActive('data-user') ?>">
                             <i class="nav-icon fas fa-users-cog"></i>
                             <p>Data User</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="<?= base_url('penilaian') ?>" class="nav-link <?= isActive('penilaian') ?>">
-                            <i class="nav-icon fas fa-clipboard-check"></i>
-                            <p>Penilaian</p>
                         </a>
                     </li>
                     <li class="nav-item">
