@@ -143,14 +143,13 @@
 
                               <!-- Dropdown siswa yang belum punya nilai -->
                               <div class="form-group">
-                                  <label>Nama Siswa</label>
-                                  <select name="id_siswa" class="form-control" required>
-                                      <?php foreach ($siswa as $s): ?>
-                                          <option value="<?= $s['id'] ?>"><?= $s['nama_siswa'] ?></option>
-                                      <?php endforeach ?>
-                                  </select>
-                              </div>
-
+                                    <label>Nama Siswa</label>
+                                    <select name="id_siswa" class="form-control" required>
+                                        <?php foreach ($siswa as $s): ?>
+                                            <option value="<?= $s['id'] ?>"><?= $s['nama_siswa'] ?></option>
+                                        <?php endforeach ?>
+                                    </select>
+                                </div>
                               <!-- Input nilai per kriteria -->
                               <?php foreach ($kriteria as $k): ?>
                                   <div class="form-group">

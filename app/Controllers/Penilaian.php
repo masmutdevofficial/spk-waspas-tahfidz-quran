@@ -17,53 +17,76 @@ class Penilaian extends BaseController
         $siswa      = new SiswaModel();
         $kriteria   = new KriteriaModel();
         $periode    = new PeriodeModel();
-
-        $filterPeriode = $this->request->getGet('periode');
-
-        $data['periode'] = $periode->findAll();
-        $data['filter_id'] = $filterPeriode;
-
-        // Ambil siswa yang belum punya nilai
+    
+        // -------- info user ------------
+        $userRole = session()->get('role');   // 1 = admin
+        $userId   = session()->get('id');     // id user login
+        // --------------------------------
+    
+        $filterPeriode        = $this->request->getGet('periode');
+        $data['periode']      = $periode->findAll();
+        $data['filter_id']    = $filterPeriode;
+    
+        // ---------- ambil id siswa yg sudah punya nilai ------------
         $siswaNilai = $nilaiSiswa
             ->distinct()
             ->select('id_siswa')
             ->findColumn('id_siswa');
-
+        // -----------------------------------------------------------
+    
+        // ---------- query siswa yg BELUM punya nilai ---------------
         $querySiswa = $siswa;
-        if (!empty($filterPeriode)) {
-            $querySiswa = $querySiswa->where('id_periode', $filterPeriode);
+    
+        if ($filterPeriode) {
+            $querySiswa->where('id_periode', $filterPeriode);
         }
-
+    
+        // kalau bukan admin, batasi ke siswa milik user itu saja
+        if ($userRole != 1) {
+            $querySiswa->where('id_user', $userId);
+        }
+    
         $data['siswa'] = $siswaNilai
             ? $querySiswa->whereNotIn('id', $siswaNilai)->findAll()
             : $querySiswa->findAll();
-
+        // -----------------------------------------------------------
+    
         $data['kriteria'] = $kriteria->findAll();
-
-        // Ambil semua nilai siswa dengan join
+    
+        // ------------ ambil seluruh nilai (join) ------------------
         $queryNilai = $nilaiSiswa
-            ->select('nilai_siswa.*, siswa.nama_siswa, siswa.id_periode, kriteria.nama_kriteria')
+            ->select([
+                'nilai_siswa.*',
+                'siswa.nama_siswa',
+                'siswa.id_periode',
+                'kriteria.nama_kriteria'
+            ])
             ->join('siswa', 'siswa.id = nilai_siswa.id_siswa')
             ->join('kriteria', 'kriteria.id = nilai_siswa.id_kriteria')
             ->orderBy('id_siswa');
-
-        if (!empty($filterPeriode)) {
-            $queryNilai = $queryNilai->where('siswa.id_periode', $filterPeriode);
+    
+        if ($filterPeriode) {
+            $queryNilai->where('siswa.id_periode', $filterPeriode);
         }
-
+    
+        if ($userRole != 1) {
+            $queryNilai->where('siswa.id_user', $userId);
+        }
+    
         $nilaiData = $queryNilai->findAll();
-
-        // Kelompokkan nilai per siswa
+        // -----------------------------------------------------------
+    
+        // --------- kelompokkan nilai per siswa ---------------------
         $grouped = [];
         foreach ($nilaiData as $n) {
-            $grouped[$n['id_siswa']]['nama_siswa'] = $n['nama_siswa'];
-            $grouped[$n['id_siswa']]['nilai'][$n['id_kriteria']] = $n;
+            $grouped[$n['id_siswa']]['nama_siswa']                  = $n['nama_siswa'];
+            $grouped[$n['id_siswa']]['nilai'][$n['id_kriteria']]    = $n;
         }
-
         $data['nilai_siswa'] = $grouped;
-
+        // -----------------------------------------------------------
+    
         return view('admin/penilaian', $data);
-    }
+    }    
 
     public function tambah()
     {
