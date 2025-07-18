@@ -270,8 +270,19 @@ class Penilaian extends BaseController
             foreach ($siswa['nilai'] as $idKriteria => $n) {
                 $konv = $n['konversi'];
 
-                // Jenis kriteria (hardcoded sementara, atau bisa pakai query)
-                $jenis = in_array($idKriteria, [1, 2]) ? 'benefit' : 'cost';
+                $kriteriaModel = new \App\Models\KriteriaModel();
+                $kriteriaList = $kriteriaModel
+                    ->whereIn('id', array_keys($namaKriteria))
+                    ->findAll();
+
+                $bobot = [];
+                $jenisKriteria = [];
+                foreach ($kriteriaList as $k) {
+                    $bobot[$k['id']] = floatval($k['bobot']);
+                    $jenisKriteria[$k['id']] = $k['jenis']; // 'benefit' atau 'cost'
+                }
+
+                $jenis = $jenisKriteria[$idKriteria] ?? 'benefit';
 
                 if ($jenis === 'benefit') {
                     $norm = $konv / $max[$idKriteria];
@@ -337,11 +348,15 @@ class Penilaian extends BaseController
             $siswa['Qi']  = round((0.5 * $WSM) + (0.5 * $WPM), 4);
         }
 
+        unset($siswa);
+
         // 6. Tambahkan status kelulusan berdasarkan Qi
         foreach ($siswaData as &$siswa) {
             $qi = $siswa['Qi'];
             $siswa['status_kelulusan'] = ($qi >= 0.6) ? 'Lulus' : 'Tidak Lulus';
         }
+
+        unset($siswa);
 
         echo "<h3>Nilai Akhir Dan Status Kelulusan</h3>";
         echo "<table border='1' cellpadding='8' cellspacing='0'>";
